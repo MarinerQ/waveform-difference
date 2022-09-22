@@ -1,0 +1,1 @@
+Code for "Assessing the model waveform accuracy of gravitational waves", Phys. Rev. D 106, 044042 (2022).
