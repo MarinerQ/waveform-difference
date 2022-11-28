@@ -81,13 +81,10 @@ def get_network_dtdphi(h1_list, h2_list, ifos):
     jmax = np.argmax( abs(X_shifted) )
     deltat = t[jmax]
     phase1 = 2*np.pi*f_array*deltat
-    #print('len(phase1)', len(phase1))
     inner_product=0
     for ii in range(len(ifos)):
         det = ifos[ii]
         freq_mask = det.strain_data.frequency_mask
-        #inner_product += det.inner_product_2(h1_list[ii].conjugate(),
-        #                                     h2_list[ii].conjugate()*np.exp(1j*phase1) )
         inner_product += gwutils.noise_weighted_inner_product(
                             aa=h1_list[ii].conjugate()[freq_mask],
                             bb=(h2_list[ii].conjugate() * np.exp(1j*phase1))[freq_mask],
@@ -126,8 +123,6 @@ def calculate_deltasq_kernel(sample_ID, Deltasq_list, samples, waveform_generato
     resp_list_IMR_Netshifted = get_shifted_h2list(resp_list_EOB, resp_list_IMR, ifos)
     for i in range(len(ifos)):
         det = ifos[i]
-        #Deltasq_netshifted = (det.inner_product_2(resp_list_EOB[i]-resp_list_IMR_Netshifted[i],
-        #                            resp_list_EOB[i]-resp_list_IMR_Netshifted[i])).real
         dh = resp_list_EOB[i]-resp_list_IMR_Netshifted[i]
         Deltasq_netshifted = gwutils.noise_weighted_inner_product(
                             aa=dh[det.strain_data.frequency_mask],
@@ -235,11 +230,9 @@ if __name__ == '__main__':
     
     # Calculate Deltasq
     Nsample = samples.shape[0]
-    Nsample = 5
+    Nsample = 5 # for test use! comment out this line for real events
     
     # The array to save
-    # [factorsqH, .. , .. , DeltasqH, .. , .. , DeltasqH_netshifted, .. , ..]
-    #Deltasq_list = np.zeros(shape=(Nsample,3*len(ifos)))
     manager = multiprocessing.Manager()
     Ncol = len(ifos)
     Deltasq_list = manager.Array('d', range(Nsample*Ncol ))
@@ -249,7 +242,6 @@ if __name__ == '__main__':
 
     with Pool(core_num) as p:
         p.map(partial_work, range(Nsample) )
-        #p.apply_async(partial_work, range(Nsample) ) 
     
     Deltasq_list_reshaped = np.reshape(Deltasq_list, (Nsample, len(ifos)))
     # Calculation done. Save Deltasq_list
@@ -261,7 +253,7 @@ if __name__ == '__main__':
     Delta_net = sum(delta_det for delta_det in Deltasq_list_reshaped.T)
     Delta_net = np.sqrt(Delta_net / len(ifos))
 
-    savefilename = 'example_output_2.txt'
+    savefilename = 'example_output.txt'
     np.savetxt(savefilename, Delta_net)
 
     time_end = time.time()

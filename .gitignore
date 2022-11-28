@@ -133,7 +133,7 @@ dmypy.json
 # outputs
 *.out 
 .vscode/
-.DS_Store/
+.DS_Store
 
 O4/example/*.txt
 O4/example/*.h5
