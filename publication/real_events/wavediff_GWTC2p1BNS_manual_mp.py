@@ -10,53 +10,66 @@ import sys
 from functools import partial
 import time
 import os
-#os.environ['LAL_DATA_PATH'] = "/Users/qianhu/lalsuite-extra-master/data/lalsimulation"
+os.environ['LAL_DATA_PATH'] = "/Users/qianhu/lalsuite-extra-master/data/lalsimulation"
 
 
-file_folder = '/home/qian.hu/gwosc_PEresult/O3b/'
-#file_folder = '/Users/qianhu/Documents/Glasgow/research/waveform_diff/pesummary_file/'
-'''
-files_O3b = [file_folder+"IGWN-GWTC3p0-v1-GW191103_012549_PEDataRelease_mixed_cosmo.h5",
-file_folder+"IGWN-GWTC3p0-v1-GW200129_065458_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191105_143521_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200202_154313_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191109_010717_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200208_130117_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191113_071753_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200208_222617_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191126_115259_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200209_085452_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191127_050227_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200210_092255_PEDataRelease_mixed_cosmo.h5", # NSBH or low mass BBH
-file_folder+"IGWN-GWTC3p0-v1-GW191129_134029_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200216_220804_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191204_110529_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200219_094415_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191204_171526_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200220_061928_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191215_223052_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200220_124850_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191216_213338_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200224_222234_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191219_163120_PEDataRelease_mixed_cosmo.h5", # NSBH
-file_folder+"IGWN-GWTC3p0-v1-GW200225_060421_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191222_033537_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200302_015811_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW191230_180458_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200306_093714_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200105_162426_PEDataRelease_mixed_cosmo.h5", # NSBH
-file_folder+"IGWN-GWTC3p0-v1-GW200308_173609_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200112_155838_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200311_115853_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200115_042309_PEDataRelease_mixed_cosmo.h5", # NSBH
-file_folder+"IGWN-GWTC3p0-v1-GW200316_215756_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200128_022011_PEDataRelease_mixed_cosmo.h5", 
-file_folder+"IGWN-GWTC3p0-v1-GW200322_091133_PEDataRelease_mixed_cosmo.h5"] # 35+1 in total. Run 32
-'''
-files_O3b = [file_folder+"IGWN-GWTC3p0-v1-GW200210_092255_PEDataRelease_mixed_cosmo.h5",
-file_folder+"IGWN-GWTC3p0-v1-GW191219_163120_PEDataRelease_mixed_cosmo.h5",
-file_folder+"IGWN-GWTC3p0-v1-GW200105_162426_PEDataRelease_mixed_cosmo.h5",
-file_folder+"IGWN-GWTC3p0-v1-GW200115_042309_PEDataRelease_mixed_cosmo.h5"]
+file_folder = '/home/daniel.williams/events/O3/o3a_final/releases/release-v3-sandbox/'
+#file_folder = 'pesummary_file/'
+
+files_GWTC2p1 = [file_folder+'IGWN-GWTC2p1-v2-GW170814_103043_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190916_200658_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW170818_022509_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190512_180714_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190720_000836_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW170104_101158_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190719_215514_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190521_074359_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW151012_095443_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW170823_131358_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190620_030421_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190930_133541_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190521_030229_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190426_190642_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190403_051519_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190514_065416_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190924_021846_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190803_022701_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190513_205428_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190915_235702_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190727_060333_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW170608_020116_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190925_232845_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190413_052954_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190910_112807_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190728_064510_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190917_114630_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190421_213856_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190519_153544_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190517_055101_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190731_140936_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190425_081805_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW170729_185629_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190706_222641_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190630_185205_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190602_175927_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190929_012149_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190413_134308_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190926_050336_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190503_185404_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190527_092055_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190408_181802_PEDataRelease_mixed_cosmo.h5', #
+file_folder+'IGWN-GWTC2p1-v2-GW190828_065509_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW151226_033853_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190725_174728_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW190412_053044_PEDataRelease_mixed_cosmo.h5', # error
+file_folder+'IGWN-GWTC2p1-v2-GW150914_095045_PEDataRelease_mixed_cosmo.h5',
+file_folder+'IGWN-GWTC2p1-v2-GW190701_203306_PEDataRelease_mixed_cosmo.h5'] #
 
 
 def get_inj_paras(parameter_values, parameter_names = ['chirp_mass','mass_ratio','a_1','a_2','tilt_1','tilt_2','phi_12','phi_jl', 'theta_jn','psi','phase','ra','dec','luminosity_distance','geocent_time']):
@@ -141,6 +154,7 @@ def get_network_dtdphi(h1_list, h2_list, ifos):
     
     inner_product=0
     for ii in range(len(ifos)):
+        det = ifos[ii]
         inner_product += det.inner_product_2(h1_list[ii].conjugate(),
                                              h2_list[ii].conjugate()*np.exp(1j*phase1) )
     
@@ -164,9 +178,12 @@ def calculate_deltasq_kernal(sample_ID, Deltasq_list, samples, waveform_generato
 
     #inj_para = get_inj_paras(samples[sample_ID])
     inj_para = get_inj_paras2(samples[sample_ID])
-    #print(inj_para)
-    h_EOB=waveform_generator_EOB.frequency_domain_strain(parameters=inj_para)
     h_IMR=waveform_generator_IMR.frequency_domain_strain(parameters=inj_para)
+    #print(inj_para)
+    inj_para.pop('lambda_1')
+    inj_para.pop('lambda_2')
+    h_EOB=waveform_generator_EOB.frequency_domain_strain(parameters=inj_para)
+    
     resp_list_EOB = get_network_response(h_EOB, ifos, inj_para)
     resp_list_IMR = get_network_response(h_IMR, ifos, inj_para)
     
@@ -215,79 +232,64 @@ if __name__ == '__main__':
     input_sampling_frequency_times4k = float(sys.argv[2])
     fmin_EOB = float(sys.argv[3]) # input 0 uses default
     core_num = int(sys.argv[4])
-    flag = str(sys.argv[5])  # PHM, NSBHLOW, NSBHHIGH
     # example: nohup python wavediff_O3bNSBH_manual_mp.py GW200115 4 0 2 PHM &
 
     event_name = input_event_name  
     print("\n ------ Start analyzing "+ event_name + ' ------\n')
 
     # Read file
-    filename = find_pe_file(input_event_name, files_O3b)
-    f = h5py.File(filename,'r')
-    if flag=="PHM":
-        info_IMR = f['C01:IMRPhenomXPHM:LowSpin']
-        info_EOB = f['C01:SEOBNRv4PHM']
-        info_mixed = f['C01:Mixed']
-        postsample_mixed = info_mixed['posterior_samples']
-        approx_IMR = "IMRPhenomXPHM"
-        approx_EOB = "SEOBNRv4PHM"
-        para_names = ['chirp_mass','mass_ratio','a_1','a_2','tilt_1','tilt_2','phi_12','phi_jl',  # 8 intrinsic
-             'theta_jn','psi','phase','ra','dec','luminosity_distance','geocent_time']  # 6 extrinsic
-    if flag=="NSBHLOW":
-        info_IMR = f['C01:IMRPhenomNSBH:LowSpin']
-        info_EOB = f['C01:SEOBNRv4_ROM_NRTidalv2_NSBH:LowSpin']
-        #info_mixed = f['C01:Mixed:NSBH:LowSpin']
-        #postsample_mixed = info_mixed['posterior_samples']
+    
+    if event_name=="GW170817":
+        filaneme170817 = "/home/qian.hu/waveform_diff/manualrun3/cosmo_reweight.h5"
+        f = h5py.File(filaneme170817,'r')
+        info_IMR = f['IMRPhenomPv2NRT_lowSpin']
         postsample_IMR = info_IMR['posterior_samples']
-        postsample_EOB = info_EOB['posterior_samples']
-        approx_IMR = "IMRPhenomNSBH"
-        approx_EOB = "SEOBNRv4_ROM_NRTidalv2_NSBH"
+        approx_IMR = "IMRPhenomPv2_NRTidal"
+        approx_EOB = "SEOBNRv4T_surrogate"
         para_names = ['chirp_mass','mass_ratio','a_1','a_2','tilt_1','tilt_2','phi_12','phi_jl','lambda_1','lambda_2',  # 8+2 intrinsic
              'theta_jn','psi','phase','ra','dec','luminosity_distance','geocent_time']  # 6 extrinsic
-    elif flag=="NSBHHIGH":
-        info_IMR = f['C01:IMRPhenomNSBH:HighSpin']
-        info_EOB = f['C01:SEOBNRv4_ROM_NRTidalv2_NSBH:HighSpin']
+    elif event_name=="GW190425_081805":
+        filename = find_pe_file(input_event_name, files_GWTC2p1)
+        f = h5py.File(filename,'r')
+        info_IMR = f['C01:IMRPhenomPv2_NRTidal:LowSpin']
         postsample_IMR = info_IMR['posterior_samples']
-        postsample_EOB = info_EOB['posterior_samples']
-        approx_IMR = "IMRPhenomNSBH"
-        approx_EOB = "SEOBNRv4_ROM_NRTidalv2_NSBH"
+        approx_IMR = "IMRPhenomPv2_NRTidal"
+        approx_EOB = "IMRPhenomXPHM"
         para_names = ['chirp_mass','mass_ratio','a_1','a_2','tilt_1','tilt_2','phi_12','phi_jl','lambda_1','lambda_2',  # 8+2 intrinsic
              'theta_jn','psi','phase','ra','dec','luminosity_distance','geocent_time']  # 6 extrinsic
-
-
 
     # Read posterior samples. 
     # t_c is set as constant as only IMR gives its estimation. 
     # Other paras are from mixed samples. 
-    #geocent_time_sample = f['C01:IMRPhenomXPHM']['posterior_samples']['geocent_time']
-    #geocent_time_est = np.mean(geocent_time_sample)
-    geocent_time_est = float(list(info_IMR['config_file']['config']['trigger-time'])[0])
+    if event_name=="GW170817":
+        geocent_time_est = 1187008882.4
+    elif event_name=="GW190425_081805":
+        geocent_time_sample = info_IMR['posterior_samples']['geocent_time']
+        geocent_time_est = np.mean(geocent_time_sample)
+        #geocent_time_est = float(list(info_IMR['config_file']['config']['trigger-time'])[0])
 
     #postsample_mixed = info_mixed['posterior_samples']
     
-    Ntake = 5000
-    samples = np.zeros(shape=(2*Ntake, len(para_names)) )
+    samples = np.zeros(shape=(len(postsample_IMR['chirp_mass']), len(para_names)) )
     for i in range(len(para_names)-1):
-        sp1 = postsample_IMR[para_names[i]][0:Ntake]
-        sp2 = postsample_EOB[para_names[i]][0:Ntake]
-        samples[:,i] = np.append(sp1,sp2)
-    samples[:,-1] = np.zeros(2*Ntake) + geocent_time_est
+        samples[:,i] = postsample_IMR[para_names[i]] 
+    samples[:,-1] = np.zeros(len(postsample_IMR['chirp_mass']) ) + geocent_time_est
 
     # Define waveform generators
-    try:
-        duration = list(info_IMR['meta_data']['meta_data']['duration'])[0]
-    except:
-        print("\nWarning: Duration is not stored in PE summary file. Using default duration = 32s. \n")
-        duration = 32
+
+    duration = 64
 
     sampling_frequency = 4096.* input_sampling_frequency_times4k
-    #fref_EOB = float(list(info_EOB['config_file']['engine']['fref'])[0])
-    fref_EOB = 20
-    if fmin_EOB==0.:
-        fmin_EOB = float(list(info_EOB['config_file']['engine']['fmin-template'])[0])
+    if event_name=="GW170817":
+        fref_EOB=100
+        fmin_EOB=20
+    elif event_name=="GW190425_081805":
+        fref_EOB = 20
+        fmin_EOB = 20
+
 
     waveform_arguments_IMR = dict(waveform_approximant=approx_IMR,
-                            reference_frequency=20., minimum_frequency=fmin_EOB)  # f_min for IMR doesn't matter
+                            reference_frequency=fref_EOB, minimum_frequency=fmin_EOB)  
 
     waveform_arguments_EOB = dict(waveform_approximant=approx_EOB,
                             reference_frequency=fref_EOB, minimum_frequency=fmin_EOB)
@@ -346,8 +348,8 @@ if __name__ == '__main__':
     file_suffix = detctor_name_list[0] + detctor_name_list[1]
     if len(detctor_name_list)==3:
         file_suffix += detctor_name_list[2]
-    savefilename = "Deltasq_" + event_name + "_" + file_suffix +"_" + flag + ".txt"
-    save_folder = "result_O3bNSBH/"
+    savefilename = "Deltasq_" + event_name + "_" + file_suffix + ".txt"
+    save_folder = "result_GWTC2p1BNS/"
     np.savetxt(save_folder + savefilename, Deltasq_list_reshaped)
 
     time_end = time.time()
