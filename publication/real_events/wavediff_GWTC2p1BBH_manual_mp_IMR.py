@@ -12,9 +12,7 @@ import time
 from gstlal import chirptime
 
 #file_folder = '/home/daniel.williams/events/O3/o3a_final/releases/release-v3-sandbox/'
-#file_folder = '/home/daniel.williams/events/O3/o3a_final/releases/release-v5d1-sandbox/'
 file_folder = '/home/qian.hu/gwosc_PEresult/gwtc2p1/'
-
 
 #file_folder = 'pesummary_file/'
 
@@ -176,6 +174,7 @@ def get_network_dtdphi(h1_list, h2_list, ifos):
     
     inner_product=0
     for ii in range(len(ifos)):
+        det = ifos[ii]
         inner_product += det.inner_product_2(h1_list[ii].conjugate(),
                                              h2_list[ii].conjugate()*np.exp(1j*phase1) )
     
@@ -258,21 +257,28 @@ if __name__ == '__main__':
     # Read file
     filename = find_pe_file(input_event_name, files_GWTC2p1)
     f = h5py.File(filename,'r')
-    info_IMR = f['C01:IMRPhenomXPHM']
-    info_EOB = f['C01:SEOBNRv4PHM']
-    info_mixed = f['C01:Mixed']
-    postsample_mixed = info_mixed['posterior_samples']
+    '''
+    if event_name == "GW190630_185205":
+        info_IMR = f['C01:SEOBNRv4PHM']
+    elif event_name == "GW190828_065509":
+        info_IMR = f['ProdF9']
+    else:
+        info_IMR = f['C01:IMRPhenomXPHM']
+    '''
+    info_IMR = f['C01:IMRPhenomXPHM'] # there are Mixed samples, but no EOB samples. Why?
+    #info_EOB = f['C01:SEOBNRv4PHM']
+    #info_mixed = f['C01:Mixed']
+    postsample_mixed = info_IMR['posterior_samples']
 
     # Read posterior samples. 
     # t_c is set as constant as only IMR gives its estimation. 
     # Other paras are from mixed samples. 
-    if event_name in ["GW190707_093326","GW190728_064510","GW190924_021846","GW190725_174728",'GW190720_000836','GW170608_020116']:
-        geocent_time_sample = f['C01:IMRPhenomXPHM']['posterior_samples']['geocent_time']
-        geocent_time_est = np.mean(geocent_time_sample)
-    else:
+    try:
         geocent_time_est = float(list(info_IMR['config_file']['config']['trigger-time'])[0])
+    except:
+        geocent_time_sample = info_IMR['posterior_samples']['geocent_time']
+        geocent_time_est = np.mean(geocent_time_sample)
 
-    postsample_mixed = info_mixed['posterior_samples']
     para_names = ['chirp_mass','mass_ratio','a_1','a_2','tilt_1','tilt_2','phi_12','phi_jl',  # 8 intrinsic
              'theta_jn','psi','phase','ra','dec','luminosity_distance','geocent_time']  # 6 extrinsic
     samples = np.zeros(shape=(len(postsample_mixed['chirp_mass']), len(para_names)) )
@@ -287,7 +293,7 @@ if __name__ == '__main__':
 
     # f_Ref
     try:
-        fref_EOB = float(list(info_EOB['config_file']['engine']['fref'])[0])
+        fref_EOB = float(list(info_IMR['config_file']['engine']['fref'])[0])
     except:
         print("\ninfo_EOB['config_file']['engine']['fref'] not found. Using fref_EOB=20Hz.")
         fref_EOB = 20
@@ -299,7 +305,7 @@ if __name__ == '__main__':
     
     # f_min
     if fmin_EOB==0.:
-        mtot_max = max(info_mixed['posterior_samples']['total_mass'])
+        mtot_max = max(info_IMR['posterior_samples']['total_mass'])
         #fmin_EOB = int(get_fmin(mtot_max))
         fmin_EOB = 0.99*get_fmin(mtot_max)
         if fmin_EOB==0:
